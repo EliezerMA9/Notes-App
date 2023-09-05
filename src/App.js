@@ -6,14 +6,30 @@ import '@fontsource/roboto/700.css';
 import { Fragment } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Login from './Components/Login';
-import Topbar from './Components/TopBar';
+import { useState, useEffect } from 'react';
+import MainScreen from './Components/MainScreen';
 
 function App() {
+	let [width, setWidth] = useState(0);
+
+	let handleResizeChange = () => {
+		setWidth(window.innerWidth);
+	};
+
+	useEffect(() => {
+		window.addEventListener('resize', handleResizeChange);
+		return () => {
+			window.removeEventListener('resize', handleResizeChange);
+		};
+	}, []);
+
+	const isMobile = width <= 768;
+
 	return (
 		<Fragment>
 			<CssBaseline />
-			<Topbar />
-			<Login></Login>
+			<MainScreen mobile={isMobile} />
+			<Login mobile={isMobile} />
 		</Fragment>
 	);
 }
